@@ -17,7 +17,8 @@
 | 楽天トラベルの宿検索（キーワード） | `https://openapi.rakuten.co.jp/engine/api/Travel/KeywordHotelSearch/20170426` |
 
 - 旧ドメイン `app.rakuten.co.jp` はこのアプリIDでは使えない（`wrong_parameter` になる）。
-- 商品検索ツール: `tools/rakuten_search.py`（ブランチ `claude/zen-franklin-2ndxj0` にある）。
+- 商品検索ツール: `tools/rakuten_search.py`（Windows では `python` で実行）。
+- `CLIENT_IP_NOT_ALLOWED` エラーは、接続元IPが楽天アプリで許可されていない。ローカルPCの場合はそのIPの追加をユーザーに案内する。
 - カタカナのブランド名だと無関係な商品が混ざるので、品番で検索するほうが正確。
 
 ## メルカリ
