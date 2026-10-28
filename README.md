@@ -2,6 +2,10 @@
 
 自分用の業務ツール集。
 
+## マンガ制作セット（ComfyUI）
+
+ネームをコマごとに切り出し、ComfyUIでキャラを描いてページに戻すためのセットです。`manga/setup.bat` で ComfyUI・モデル・ツールがまとめて入ります。詳しくは [manga/README.md](manga/README.md)。
+
 ## 通帳から仕訳を作るスキル（bank-journal）
 
 預金通帳のコピーと、その会社の過去の総勘定元帳をClaudeに貼り付けると、銀行取引の仕訳をExcelで出力するClaude用のスキルです。
