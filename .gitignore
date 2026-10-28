@@ -102,3 +102,8 @@ ENV/
 
 # JEVのAPIキー（公開しない）
 jev_config.json
+
+# マンガ制作ツールが作るファイル
+manga/sample/*_コマ/
+manga/sample/*_仮組み.png
+manga/comfyui_location.txt
