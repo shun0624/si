@@ -5,7 +5,7 @@ $ErrorActionPreference = "Stop"
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 # ---- 設定（必要ならここだけ変える） ----
-$InstallRoot = "C:\AI"                      # ComfyUI を置く場所
+$InstallRoot = "C:\AI"                      # ComfyUI を置く場所（何も入力しなかったとき）
 $Here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $Log = Join-Path $Here "install_log.txt"
 
@@ -115,6 +115,41 @@ Start-Transcript -Path $Log -Append | Out-Null
 Write-Host "マンガ制作セットのインストールを始めます。" -ForegroundColor Cyan
 Write-Host "全部で 25GB ほどダウンロードします。回線によっては1〜2時間かかります。"
 
+# ---- インストール先を決める ----
+# 前回入れた場所があれば、それを最初の候補にする
+$locFile = Join-Path $Here "comfyui_location.txt"
+if (Test-Path $locFile) {
+    $prev = "$(Get-Content $locFile -Encoding Default | Select-Object -First 1)".Trim()
+    if ($prev) { $InstallRoot = $prev }
+}
+while ($true) {
+    $ans = "$(Read-Host "ComfyUI を入れるフォルダ（そのまま Enter で $InstallRoot）")".Trim().Trim('"')
+    $root = $InstallRoot
+    if ($ans) { $root = $ans }
+    if ($root -notmatch '^[A-Za-z]:\\') {
+        Write-Host "  「D:\AI」のように、ドライブ名から入力してください。" -ForegroundColor Yellow
+        continue
+    }
+    if (-not (Test-Path $root.Substring(0, 3))) {
+        Write-Host "  $($root.Substring(0, 2)) ドライブが見つかりません。" -ForegroundColor Yellow
+        continue
+    }
+    if ($root.Length -gt 3) { $root = $root.TrimEnd("\") }
+    # すでにある ComfyUI のフォルダ（python_embeded がある所）を指定されたら、それをそのまま使う
+    $Portable = Join-Path $root "ComfyUI_windows_portable"
+    if (Test-Path (Join-Path $root "python_embeded\python.exe")) {
+        $Portable = $root
+        $root = Split-Path -Parent $root
+    }
+    if ($root -match '[^\x21-\x7E]') {
+        $yes = Read-Host "  日本語や空白が入った場所だと、一部の部品が動かないことがあります。このまま進めますか？[y/N]"
+        if ($yes -notmatch "^[yYｙＹ]") { continue }
+    }
+    $InstallRoot = $root
+    break
+}
+Ok "インストール先: $Portable"
+
 $withMoss = (Read-Host "透明素材用の MOSS-Image も入れますか？（さらに約17GB）[y/N]") -match "^[yYｙＹ]"
 
 # ---- 1. 事前チェック ----
@@ -128,7 +163,6 @@ if (Get-Command nvidia-smi -ErrorAction SilentlyContinue) {
 $drive = (Split-Path -Qualifier $InstallRoot).TrimEnd(":")
 $free = [math]::Round((Get-PSDrive $drive).Free / 1GB)
 # まだ入っていない分だけ空きが必要（ComfyUI 本体と部品で約10GB＋余裕5GB）
-$Portable = Join-Path $InstallRoot "ComfyUI_windows_portable"
 $need = 5
 if (-not (Test-Path (Join-Path $Portable "python_embeded\python.exe"))) { $need += 10 }
 $check = $Models
@@ -137,7 +171,7 @@ foreach ($m in $check) {
     if (-not (Test-Path (Join-Path $Portable "ComfyUI\models\$($m.Dir)\$($m.File)"))) { $need += [math]::Ceiling($m.Size / 1GB) }
 }
 if ($free -lt $need) {
-    Warn "$drive ドライブの空きが $free GB しかありません（$need GB 以上必要）。空きを作るか、install.ps1 の InstallRoot を別のドライブに変えてください。"
+    Warn "$drive ドライブの空きが $free GB しかありません（$need GB 以上必要）。空きを作るか、もう一度 setup.bat を実行して別のドライブを指定してください。"
     Stop-Transcript | Out-Null
     exit 1
 }
