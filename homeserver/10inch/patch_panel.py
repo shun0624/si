@@ -3,7 +3,7 @@
 
 使い方:
     pip install manifold3d trimesh
-    python rack/patch_panel.py            # rack/stl/ に全部出力
+    python homeserver/10inch/patch_panel.py  # homeserver/10inch/stl/ に全部出力
 
 寸法を変えたいときは、下の「設定」の数字を書き換えて実行し直す。
 """

@@ -2,6 +2,10 @@
 
 自分用の業務ツール集。
 
+## ホームサーバー
+
+自宅サーバー・ネットワーク機器まわりの自作パーツです。10インチラック用と19インチラック用に分けています。詳しくは [homeserver/README.md](homeserver/README.md)。
+
 ## マンガ制作セット（ComfyUI）
 
 ネームをコマごとに切り出し、ComfyUIでキャラを描いてページに戻すためのセットです。`manga/setup.bat` で ComfyUI・モデル・ツールがまとめて入ります。詳しくは [manga/README.md](manga/README.md)。
