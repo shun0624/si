@@ -37,3 +37,23 @@
 ## メルカリ
 
 一般向けの商品検索APIは公開されていない。自動取得（スクレイピング）は利用規約で禁止されているので行わない。
+
+## Googleドライブの資料（必要なときに読む）
+
+ユーザーの情報は Googleドライブの `00_マイハブ` にまとまっている。Google Drive コネクタで読む
+（`.md` は `get_file_metadata` の `snippetVerbosity: MAX_ALLOWED` で本文が取れる）。
+毎回全部読むのではなく、**話題に関係するものだけ**読む。ファイルIDで見つからなければ、ファイル名で `search_files` する。
+
+| 読むとき | ファイル（場所） | ファイルID |
+|---|---|---|
+| ユーザーの前提・答え方の方針を確認したいとき | `SSOT.md`（50_AI開発/51_SSOT） | `1S6IlfP0n7GfnPXCE5pCx-1tRNB79qAlx` |
+| 過去にどんな相談をしたか、続きの話か確かめたいとき | `2026-10-29_Claudeチャット履歴_整理.md`（50_AI開発/54_共有コンテキスト） | `1BqYE9hdyyNcyHsRBgK009vdd_4kau63L` |
+| 楽天API・ホームサーバー・パッチパネルの経緯 | `2026-10-29_ClaudeCode作業まとめ_楽天API_ホームサーバー.md`（同上） | `1fjrKOuQh3WCp-_ZW5LjOqsKI-5OdK6jH` |
+| 税務・住宅・車・投資・開発の進行中案件 | `context_summary.md`（同上） | `1HXSLqxxKMueUHlft9zXQmWbbfTY6Hgvm` |
+| ドライブにファイルを保存・整理するとき（フォルダ構成と命名規則） | `00_INDEX.md`（00_マイハブ直下） | `1CunI6us5fUkTLbGzVGMW0Etc2SufJcNb` |
+| マイハブでの作業ルール（削除はごみ箱へ、触ってはいけないもの） | `CLAUDE.md`（00_マイハブ直下） | `1p1PJyH8rMgm7HNJM96X58-ZDpADkmaER` |
+| サーバー機（Open WebUI・ComfyUI・Ollama）の起動や接続 | `サーバー機_やることリスト.md`（50_AI開発/51_SSOT） | `1qllNFuSQIgoGhko2CUHXA_D51WGmsL17` |
+
+- 分野別の詳しい資料は `54_共有コンテキスト/knowledge/` にある（新築住宅・車両・投資資産・税務会計・開発プロジェクト）。
+- `10_顧問先/` は顧問先の税務・財務データ。必要なときだけ読み、外部サービスに送らない。
+- ドライブに新しく保存するときは、`54_共有コンテキスト` か、迷ったら `00_受信箱（未整理）` に置く。既存ファイルを書き換える前はユーザーに確認する。
