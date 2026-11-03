@@ -1,0 +1,6 @@
+{
+  "name": "shinchoku-bar",
+  "version": "0.1.0",
+  "description": "作業の進捗バーとトークン使用量を画面下に常に表示する",
+  "types": "./types/index.d.ts"
+}

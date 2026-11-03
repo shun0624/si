@@ -1,0 +1,10 @@
+{
+  "name": "si-mods",
+  "owner": { "name": "shun0624" },
+  "plugins": [
+    { "name": "komonsaki-guard", "source": "./mods/komonsaki-guard", "description": "顧問先の資料を読んだあと、外部サービスへの送信を止めて確認する" },
+    { "name": "nedan", "source": "./mods/nedan", "description": "/nedan 品番 で楽天とYahoo!を安い順に比べる" },
+    { "name": "shinchoku-bar", "source": "./mods/shinchoku-bar", "description": "作業の進捗バーとトークン使用量を画面下に常に表示する" },
+    { "name": "henkou-matome", "source": "./mods/henkou-matome", "description": "ファイルを変更した作業のあと、変更点を専門用語なしの3行で表示する" }
+  ]
+}

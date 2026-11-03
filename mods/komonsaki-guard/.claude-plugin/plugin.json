@@ -1,0 +1,1 @@
+{ "name": "komonsaki-guard", "version": "0.1.0", "description": "顧問先の資料を読んだあと、外部サービスへの送信を止めて確認する", "types": "./types/index.d.ts" }
