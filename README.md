@@ -4,7 +4,7 @@
 
 ## ホームサーバー
 
-自宅サーバー・ネットワーク機器まわりの自作パーツです。10インチラック用と19インチラック用に分けています。詳しくは [homeserver/README.md](homeserver/README.md)。
+別のリポジトリ [shun0624/homeserver](https://github.com/shun0624/homeserver) に移しました（NAS・Home Assistant・ネットワークの計画、10インチラック用パッチパネル）。
 
 ## マンガ制作セット（ComfyUI）
 
