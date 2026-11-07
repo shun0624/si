@@ -77,6 +77,8 @@
 ## 開発メモ（Claude 向け）
 
 テストは pytest ではなく、ファイルを直接実行するだけ（失敗すると assert で止まる）。Windows では `python3` を `python` に読み替える。
+PR を出すと GitHub Actions（`.github/workflows/test.yml`）が下の3つを自動で動かす。テストを増やしたらそこにも足す。
+**PR を作る前に `code-review` スキルで変更を確認し、見つかった問題を直してから出す**（ユーザーはコードを読まずに取り込むため）。
 
 ```bash
 pip install openpyxl numpy scipy pillow

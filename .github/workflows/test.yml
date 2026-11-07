@@ -1,0 +1,21 @@
+# 変更を出すたび（PR）と取り込んだとき（master）に、テストを自動で動かす
+name: テスト
+on:
+  pull_request:
+  push:
+    branches: [master]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install openpyxl numpy scipy pillow
+      - name: 通帳仕訳スキル
+        run: python skills/bank-journal/tests/test_sample.py
+      - name: マンガ（コマ切り出し・はめ込み）
+        run: python manga/tests/test_panels.py
+      - name: 年末調整（国税庁の設例と一致するか）
+        run: python tools/nencho_r8.py --example
