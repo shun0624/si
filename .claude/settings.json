@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__github__pull_request_read",
+      "Bash(python3 tools/nencho_r8.py --example)",
+      "Bash(python tools/nencho_r8.py --example)",
+      "Bash(python3 manga/tests/test_panels.py)",
+      "Bash(python manga/tests/test_panels.py)",
+      "Bash(python3 skills/bank-journal/tests/test_sample.py)",
+      "Bash(python skills/bank-journal/tests/test_sample.py)"
+    ]
+  },
+  "extraKnownMarketplaces": {
+    "si-mods": {
+      "source": { "source": "github", "repo": "shun0624/si" }
+    }
+  },
+  "enabledPlugins": {
+    "komonsaki-guard@si-mods": true
+  }
+}
