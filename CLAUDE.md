@@ -73,3 +73,23 @@
 - 分野別の詳しい資料は `03_AI環境/54_共有コンテキスト/knowledge/` にある（新築住宅・車両・投資資産・税務会計・開発プロジェクト）。
 - `01_税務会計/10_顧問先/` は顧問先の税務・財務データ。必要なときだけ読み、外部サービスに送らない。
 - ドライブに新しく保存するときは、`03_AI環境/54_共有コンテキスト`（AI向けの記録）か各分類のフォルダ、迷ったら `00_受信箱（未整理）` に置く。既存ファイルを書き換える前はユーザーに確認する。
+
+## 開発メモ（Claude 向け）
+
+テストは pytest ではなく、ファイルを直接実行するだけ（失敗すると assert で止まる）。Windows では `python3` を `python` に読み替える。
+
+```bash
+pip install openpyxl numpy scipy pillow
+python3 skills/bank-journal/tests/test_sample.py   # 通帳仕訳: 架空の元帳・通帳＋模擬JEVサーバーで全体を通す
+python3 manga/tests/test_panels.py                 # マンガ: コマ切り出し→はめ込み
+python3 tools/nencho_r8.py --example               # 年末調整: 国税庁の設例2つと一致するか
+```
+
+### 構成（複数ファイルにまたがる点）
+
+- **skills/bank-journal** … Claude.ai 用スキル。`SKILL.md` が手順書で、Claude が元帳・通帳を標準形式の `ledger.csv`／`passbook.csv` にしてから `build_rules.py`（元帳→ルール表）→ `journalize.py`（仕訳＋Excel出力、`jev_client.py` で JEV 判定）を動かす。`common.py` は共通処理。**スキルの中身を変えたら `python3 skills/bank-journal/package.py` で `release/bank-journal.zip` を作り直してコミットする**（ユーザーは zip をアップロードして使う）。zip に入るファイルは `package.py` の `FILES` で決まるので、スクリプトを増やしたらそこにも足す。`jev_config.json`（APIキー）は .gitignore 済み。
+- **manga** … Windows 用。`setup.bat` → `install.ps1` が ComfyUI 本体・追加ノード・モデルを入れ、`workflows/*.json` を ComfyUI にコピーし、デスクトップに `.bat` のショートカットを作る。`split_panels.py` がネーム画像を切り出して `<名前>_コマ/` に `コマ情報.json`（位置）と `マスク/` を書き、`assemble_page.py` がそれを読んで `採用/` の画像をはめ込む。共通の定数・読み書きは `koma_common.py`。
+  - `workflows/*.json`・`コマ表.xlsx`・`sample/p1.png` は**生成物**。直接編集せず `make_workflow.py`／`make_sheet.py`／`tests/make_sample.py` を直して作り直す（`manga/README.md` の「開発者向け」）。
+- **mods** … Claude Code のプラグイン（TypeScript の hooks）。各 mod は `.claude-plugin/plugin.json`＋`hooks/hooks.json`（`register.ts` を読み込む）。ルートの `.claude-plugin/marketplace.json` に登録されたものが `/plugin install <名前> --marketplace shun0624/si` で入る。mod を足したら marketplace.json と `mods/README.md` の表にも追加する。`nedan` は `tools/price_compare.py` を呼ぶだけ。
+- **tools** … 標準ライブラリだけで動く単独スクリプト。`price_compare.py` は `rakuten_search.py`・`yahoo_search.py` を読み込んで使う。
+- `sample/` の Excel はテスト用の架空データ。
