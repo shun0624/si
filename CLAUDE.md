@@ -74,6 +74,17 @@
 - `01_税務会計/10_顧問先/` は顧問先の税務・財務データ。必要なときだけ読み、外部サービスに送らない。
 - ドライブに新しく保存するときは、`03_AI環境/54_共有コンテキスト`（AI向けの記録）か各分類のフォルダ、迷ったら `00_受信箱（未整理）` に置く。既存ファイルを書き換える前はユーザーに確認する。
 
+## PDFを作ったとき（ユーザーに渡す方法）
+
+claude.ai のファイルのリンク（`claude.ai/api/.../files/.../contents`）は、ログインしたブラウザでしか開けず、PDFアプリなどで開くと「壊れている」と表示される。そのため、ユーザーに渡すPDFは**毎回 Googleドライブに保存して、ドライブのリンクを渡す**。
+
+1. PDFは作業用フォルダ（スクラッチパッド）に作る。日本語は文字の形（フォント）を埋め込む（例: reportlab の `TTFont` に、クラウドでは `/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc`、Windows では `C:\Windows\Fonts\msgothic.ttc` を登録）。
+2. 渡す前に `pypdf` でページ数と文字を読み出し、壊れていないこと・文字化けしていないことを確かめる。
+3. Google Drive コネクタの `create_file` で保存する。`contentMimeType: application/pdf`、`disableConversionToGoogleType: true`、`base64Content` は `sha256:<ハッシュ>:<絶対パス>` の形でファイルを指定する（中身を手で base64 にしない）。保存後、返ってきた `fileSize` が元のファイルの大きさと一致するか確かめる。
+4. 保存先は内容に合う分類フォルダ（上の11分類と `00_INDEX.md` の命名規則に従う）、迷ったら `00_受信箱（未整理）`（フォルダID `18Euc2TdLuLwUsIPufvILL_NiAX33Ggr_`）。
+5. 返ってきた `viewUrl`（`https://drive.google.com/file/d/.../view`）をユーザーに渡す。クリックするとドライブでそのまま開ける。
+6. 顧問先の個人情報を含むPDFも、保存先はユーザー本人のドライブだけにする（共有設定は変えない）。作業用フォルダのPDFは渡したあと消す。
+
 ## 開発メモ（Claude 向け）
 
 テストは pytest ではなく、ファイルを直接実行するだけ（失敗すると assert で止まる）。Windows では `python3` を `python` に読み替える。
